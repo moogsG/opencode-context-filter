@@ -1,0 +1,61 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (local with context filter)",
+      "options": {
+        "baseURL": "http://localhost:11435/v1"
+      },
+      "models": {
+        "llama3.2:1b": {
+          "name": "Llama 3.2 (1B) - Context Filtered"
+        },
+        "qwen2.5:1.5b": {
+          "name": "Qwen2.5 (1.5B) - Context Filtered"
+        },
+        "qwen2.5:7b": {
+          "name": "Qwen2.5 (7B)"
+        }
+      }
+    }
+  },
+  "agent": {
+    "doc-reader": {
+      "description": "Reads documentation and summarises key insights",
+      "mode": "subagent",
+      "model": "ollama/llama3.2:1b",
+      "temperature": 0.1,
+      "prompt": "Extract key points, APIs, and caveats from documentation.\nProvide a short summary and a Q&A with likely follow-ups.",
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": false
+      }
+    },
+    "codegen": {
+      "description": "Generates small, idiomatic code snippets",
+      "mode": "subagent",
+      "model": "ollama/llama3.2:1b",
+      "temperature": 0.2,
+      "prompt": "Generate minimal, idiomatic code snippets with comments and small tests.\nFollow project conventions and include a short explanation.",
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": false
+      }
+    },
+    "editor": {
+      "description": "Refines text for clarity, grammar, and tone",
+      "mode": "subagent",
+      "model": "ollama/llama3.2:1b",
+      "temperature": 0.1,
+      "prompt": "Improve text clarity and tone.\nMaintain author intent while fixing grammar and structure.",
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": false
+      }
+    }
+  }
+}

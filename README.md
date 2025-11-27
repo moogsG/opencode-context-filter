@@ -62,6 +62,7 @@ Retains only:
 
 - [**Setup Guide**](docs/SETUP.md) - Complete installation and configuration
 - [**Usage Guide**](docs/USAGE.md) - How to use the proxy
+- [**Logging Guide**](docs/LOGGING.md) - **NEW!** Comprehensive logging documentation
 - [**Troubleshooting**](docs/TROUBLESHOOTING.md) - Common issues and solutions
 - [**Technical Details**](docs/TECHNICAL.md) - Architecture and implementation
 
@@ -97,18 +98,44 @@ python3 tests/test_extreme.py
 
 ## Monitoring
 
+The proxy now includes **comprehensive logging** to show exactly what's being filtered and sent to Ollama!
+
 ```bash
-# View real-time proxy logs
+# View real-time detailed logs
 tail -f /tmp/ollama_context_filter.log
 
-# See filtering activity
-tail -f /tmp/ollama_context_filter.log | grep FILTER
+# See what sections are removed
+tail -f /tmp/ollama_context_filter.log | grep REMOVED
+
+# See what's sent to Ollama
+tail -f /tmp/ollama_context_filter.log | grep "FILTERED SYSTEM PROMPT" -A 20
 ```
 
 Example output:
 ```
-[FILTER] Model: llama3.2:1b, Original tokens: ~483, Filtered tokens: ~176
+[FILTER START] Model: llama3.2:1b | Time: 14:58:37
+[ORIGINAL SYSTEM PROMPT] 45234 chars (~11308 tokens)
+[REMOVED] <project> section: 12456 chars (~3114 tokens)
+[REMOVED] <env> section: 234 chars (~58 tokens)
+[REMOVED] Instructions section: 15234 chars (~3808 tokens)
+[FILTERED SYSTEM PROMPT] 456 chars (~114 tokens)
+Content being sent to Ollama:
+--------------------------------------------------------------------------------
+You are a helpful coding assistant.
+
+<env>
+  Working directory: (current directory)
+  Platform: linux
+  Today's date: (current date)
+</env>
+--------------------------------------------------------------------------------
+[FILTER SUMMARY]
+  Reduction: 99.0%
+  Sections removed: 3
+  Filter time: 1.23ms
 ```
+
+**See [Logging Guide](docs/LOGGING.md) for full documentation!**
 
 ## Configuration
 

@@ -22,7 +22,7 @@ PROXY_SCRIPT="$REPO_ROOT/src/ollama_context_filter_proxy.py"
 PROXY_PORT=11435
 PROXY_PID_FILE="/tmp/ollama_context_filter.pid"
 PROXY_LOG_FILE="/tmp/ollama_context_filter.log"
-OPENCODE_BIN="/home/gunnar/.opencode/bin/opencode"
+OPENCODE_BIN="/Users/morgan.greff/.config/nvm/versions/node/v20.14.0/bin/opencode"
 
 # Colours for output
 GREEN='\033[0;32m'
